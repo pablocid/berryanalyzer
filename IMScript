@@ -1,0 +1,60 @@
+#!/bin/bash
+
+echo "Starting the script"
+FILE=$1
+OUTPUT=$2
+NAME=$3
+
+RESIZE=$4
+
+echo "the name of file to conver is" $FILE
+
+echo "resizing to" $RESIZE"px width "
+convert -resize $RESIZE $FILE $FILE
+
+echo "executing the Unperspective script ..."
+./script/unperspective -a 1.2941176470588236 -d bh -f 30 $FILE $FILE
+
+echo "croping 10 pixels per side"
+convert -crop +5+5 -crop -5-5 $FILE $FILE
+
+echo "executing WhiteBalance script at 20,100"
+./script/whitebalance 20,100 $FILE $FILE
+
+#echo "executing Autocolor script"
+#./script/autocolor $FILE $FILE
+
+#echo "executing AutoWhite script"
+#./script/autowhite $FILE $FILE
+
+
+#convert $FILE.monochrome.png  +opaque "rgb(0,0,0)" -format %c histogram:info:
+
+echo "removing the background"
+convert $FILE -fuzz 50%% -transparent White $OUTPUT/$NAME.nbg.png
+
+echo "analysing dominant colors: reducing to 8 colors"
+convert $OUTPUT/$NAME.nbg.png  -colors 8 -depth 8 -format "%c" histogram:info:|sort -rn|head -4 > $OUTPUT/$NAME.dominantcolors.txt
+
+echo "executing 2ColorThreshold"
+./script/2colorthresh $FILE $OUTPUT/$NAME.monochrome.png
+convert $OUTPUT/$NAME.monochrome.png -negate $OUTPUT/$NAME.monochrome.png
+
+echo "solidifying"
+convert $OUTPUT/$NAME.monochrome.png -morphology Close Diamond -morphology Erode Square  -morphology Close Diamond $OUTPUT/$NAME.monochrome.png
+
+# codigo para limpiar border de objetos
+convert $OUTPUT/$NAME.monochrome.png -fuzz 0% -fill none -bordercolor black -draw "matte 0,0 floodfill" -channel alpha -morphology erode octagon:1 +channel $OUTPUT/$NAME.monochrome.png
+convert $OUTPUT/$NAME.monochrome.png -channel alpha -threshold 0% +channel $OUTPUT/$NAME.monochrome.png
+convert $OUTPUT/$NAME.monochrome.png -background black -fuzz 200% -opaque white -flatten $OUTPUT/$NAME.monochrome.png
+
+#echo "contours detection "
+#convert tmp_monochrome.png -canny 0x1+10%+30% tmp_contours.png
+
+echo "detecting objects in image"
+convert $OUTPUT/$NAME.monochrome.png -define connected-components:mean-color=true \
+-define connected-components:verbose=true -define connected-components:area-threshold=100 \
+-connected-components 4 -auto-level -depth 8 $OUTPUT/$NAME.objects.png > $OUTPUT/$NAME.objects.txt
+
+
+echo "END"

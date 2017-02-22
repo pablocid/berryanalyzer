@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Starting the script"
+rm tmp/object_coords·txt
+
+if [  "$1" != "" ] && [ "$2" != "" ] && [ "$3" != "" ]; then
+    echo "correcting the angle of the object"
+    convert tmp/object.png -background black +distort SRT "$1,$2 $3"  tmp/object.png
+fi
+
+echo 'removing the background'
+convert tmp/object.png -fuzz 20 -transparent Black tmp/object_nbg.png
+
+echo 'creating contours'
+convert tmp/object.png -canny 0x1+10%+30% tmp/object.png
+
+echo 'creating x y coordinates from contours'
+convert  tmp/object.png -colorspace RGB txt:- |
+tail -n +2 | tr -cs '0-9.\n'  ' ' |
+while read x y r g b junk; do
+    if [ $r == 255 ] && [ $g == 255 ] && [ $b == 255 ]
+    then
+    echo '{"x":'$x',"y":'$y'}'>> tmp/object_coords.txt
+    fi
+done

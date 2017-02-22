@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "Starting the script"
+
+#echo "erosionando imagen"
+#convert $2/$3.sktips.png -morphology Erode:3  Disk $2/$3.sktips.png
+
+echo "creando esqueleto"
+convert $1 -morphology Thinning:-1 Skeleton $2/$3.$4.sktips.png
+
+echo "removing background to original image"
+convert $1 -fuzz 20 -transparent Black $1
+echo "final de linea de esqueleto"
+convert $2/$3.$4.sktips.png -morphology HMT LineEnds $2/$3.$4.sktips.png
+
+#echo "creating contours"
+#convert $2/$3.sktips.png -canny 0x1+10%+30% $2/$3.sktips.png
+
+convert  $2/$3.$4.sktips.png -colorspace RGB txt:- |
+tail -n +2 | tr -cs '0-9.\n'  ' ' |
+while read x y r g b junk; do
+    if [ $r == 255 ] && [ $g == 255 ] && [ $b == 255 ]
+    then
+    echo '{"x":'$x',"y":'$y'}'>> $2/$3.$4.sktips.txt
+    fi
+done
+
+echo "END"
