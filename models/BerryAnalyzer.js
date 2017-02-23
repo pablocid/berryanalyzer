@@ -35,14 +35,14 @@ class BerryAnalyzer {
         }
         return q.all(qarray).then(x => {
             this.colors = this.getColors();
-            this.eraseTmpFiles();
+            //this.eraseTmpFiles();
             let ref = this.objects.filter(x => x.isReference)[0]
-            if(!ref){ return r}
+            if (!ref) { return r }
             this.objects.map(r => {
                 r.reference = ref.area;
                 return r;
             })
-            
+
             return x;
         });
     }
@@ -52,8 +52,8 @@ class BerryAnalyzer {
         getImageOutline(`${this.folder}/${this.id}.${el.id}.object.png`, (err, polygon) => {
             if (err) {
                 console.log(err);
-                deffered.reject(); 
-                return; 
+                deffered.reject();
+                return;
             }
             el.polygon = new Polygon(polygon);
             el.fixAngle();
@@ -81,13 +81,13 @@ class BerryAnalyzer {
             .filter(x => x)
             .map((x, i) => new Berry({ x: x.x, y: x.y }, i, x.area));
     }
-    getColors(){
-        let c =  fs
+    getColors() {
+        let c = fs
             .readFileSync(`${this.folder}/${this.id}.dominantcolors.txt`, 'utf8')
             .split("\n").filter(x => x)
             .map(x => x.trim())
             //.map(x => { return x.split(/(\s+)/).map(x => x.trim()).filter(x => x); })
-            .map(x => x.substring(x.indexOf('#'),x.indexOf('#')+7))
+            .map(x => x.substring(x.indexOf('#'), x.indexOf('#') + 7))
         c.shift();
         return c;
 
@@ -190,26 +190,29 @@ class Berry {
 
     fixAngle() {
         var minArea;
-        var mv=0;
-        var degree=0;
+        var mv = 0;
+        var degree = 0;
 
         var clone = this.polygon.clone();
         for (var e = 0; e < 360; e++) {
             var rad = (Math.PI / 180);
 
             if (e === 0) { rad = 0 }
-            mv+=rad;
+            mv += rad;
 
             clone.rotate(rad, this.polygon.center());
             let area = this.sqAreaClone(clone);
-            if (!minArea) { minArea = area; degree = mv;  }
+            if (!minArea) {
+                minArea = area;
+                degree = mv;
+            }
 
             if (area < minArea) { minArea = area; }
         }
 
         this.polygon.rotate(degree, this.polygon.center());
         if (clone.aabb().w > clone.aabb().h) {
-            this.polygon.rotate( (Math.PI / 2), this.polygon.center());
+            this.polygon.rotate((Math.PI / 2), this.polygon.center());
         }
     }
 
@@ -220,8 +223,8 @@ class Berry {
         return this.height / this.reference;
     }
 
-    get realArea (){
-        return this.area / Math.pow(this.reference,2)
+    get realArea() {
+        return this.area / Math.pow(this.reference, 2)
     }
 
 

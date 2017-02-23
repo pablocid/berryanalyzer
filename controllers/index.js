@@ -4,20 +4,20 @@ var IndexModel = require('../models/index');
 var BA = require('../models/BerryAnalyzer');
 var FA = require('../services/fixAngle');
 
-module.exports = function (router) {
+module.exports = function(router) {
 
     var model = new IndexModel();
 
-    router.get('/', function (req, res) {
+    router.get('/', function(req, res) {
 
 
         res.render('index', model);
 
 
     });
-    router.post('/upload-image', function (req, res) {
+    router.post('/upload-image', function(req, res) {
         var date = new Date();
-        var analysis = new BA(date.getTime(), req.files.picture.path, 'tmp', 1000);
+        var analysis = new BA(date.getTime(), req.files.picture.path, 'tmp', 1200);
 
         analysis.getResult().then(uu => {
             res.status(200).json({
@@ -44,7 +44,7 @@ module.exports = function (router) {
 
     });
 
-    router.get('/test', function (req, res) {
+    router.get('/test', function(req, res) {
         var objeto = new FA('tmp/1486755533624.11.object.png');
 
         objeto.getOutLine().then(x => {
