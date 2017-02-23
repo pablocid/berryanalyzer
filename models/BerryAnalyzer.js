@@ -9,7 +9,7 @@ var centroid = require('polygon-centroid');
 class BerryAnalyzer {
 
     constructor(id, path, folderPath, resolution) {
-        this.resolution = resolution || 700;
+        this.resolution = resolution || 1200;
         this.id = id;
         this.path = path;
         this.folder = folderPath;
@@ -35,7 +35,7 @@ class BerryAnalyzer {
         }
         return q.all(qarray).then(x => {
             this.colors = this.getColors();
-            //this.eraseTmpFiles();
+            this.eraseTmpFiles();
             let ref = this.objects.filter(x => x.isReference)[0]
             if (!ref) { return r }
             this.objects.map(r => {
