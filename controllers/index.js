@@ -69,17 +69,18 @@ module.exports = function(router) {
         console.log(args);
 
         var still = spawn('raspistill', args);
-
-        if (req.query.resize) {
-            console.log('resizing ...');
-            var convert = spawn('convert', ['-', '-resize', req.query.resize, '-']);
-            still.stdout.pipe(convert.stdin);
-            convert.stdout.pipe(res);
-        } else {
-            console.log(' no resizing ...');
-            still.stdout.pipe(res);
-        }
-
+        still.stdout.pipe(res);
+        /*
+                if (req.query.resize) {
+                    console.log('resizing ...');
+                    var convert = spawn('convert', ['-', '-resize', req.query.resize, '-']);
+                    still.stdout.pipe(convert.stdin);
+                    convert.stdout.pipe(res);
+                } else {
+                    console.log(' no resizing ...');
+                    still.stdout.pipe(res);
+                }
+        */
     });
 
     router.get('/test', function(req, res) {
