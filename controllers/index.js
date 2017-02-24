@@ -56,6 +56,7 @@ var fs =
             var args = ["--nopreview", "--timeout", "1", "-o", "-"];
 
             var keys = Object.keys(req.query);
+            console.log(keys);
 
             if (keys.length) {
                 for (var i = 0; i < keys.length; i++) {
@@ -66,12 +67,17 @@ var fs =
                 }
             }
 
+            console.log(args);
+
             var still = spawn('raspistill', args);
+
             if (req.query.resize) {
+                console.log('resizing ...')
                 var convert = spawn('convert', ['-', '-resize', req.query.resize, '-']);
                 still.stdout.pipe(convert.stdin);
                 convert.stdout.pipe(res);
             } else {
+                console.log(' no resizing ...');
                 still.stdout.pipe(res);
             }
 
