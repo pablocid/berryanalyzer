@@ -60,14 +60,20 @@ var fs =
             if (keys.length) {
                 for (var i = 0; i < keys.length; i++) {
                     var el = keys[i];
+                    if (el === 'resize') { continue; }
                     args.push('--' + el);
                     args.push(req.query[el]);
                 }
             }
 
             var still = spawn('raspistill', args);
-
-            still.stdout.pipe(res);
+            if (req.query.resize) {
+                var convert = spawn('convert', ['-', '-resize', req.query.resize, '-']);
+                still.stdout.pipe(convert.stdin);
+                convert.stdout.pipe(res);
+            } else {
+                still.stdout.pipe(res);
+            }
 
         });
 
