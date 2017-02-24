@@ -50,13 +50,15 @@ var fs =
         router.get('/takepicture', function(req, res) {
             execSync(`raspistill --timeout 1 -o ${__dirname}/hola.jpg `);
             res.sendFile(`${__dirname}/hola.jpg`);
-            //res.status(200).json({ area: objeto.polygon.area(), p: objeto.polygon.aabb() });
-
         });
 
         router.get('/tomafoto', function(req, res) {
             var args = ["--timeout", "1", "-o", "-"];
 
+            if (req.query.width) {
+                args.push('-w');
+                args.push(req.query.width);
+            }
             var still = spawn('raspistill', args);
 
             still.stdout.pipe(res);
