@@ -5,6 +5,7 @@ var BA = require('../models/BerryAnalyzer');
 var FA = require('../services/fixAngle');
 
 var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
 var fs =
     module.exports = function(router) {
 
@@ -50,6 +51,15 @@ var fs =
             execSync(`raspistill --timeout 1 -o ${__dirname}/hola.jpg `);
             res.sendFile(`${__dirname}/hola.jpg`);
             //res.status(200).json({ area: objeto.polygon.area(), p: objeto.polygon.aabb() });
+
+        });
+
+        router.get('/tomafoto', function(req, res) {
+            var args = ["--timeout", "1", "-o", "-"];
+
+            var still = spawn('raspistill', args);
+
+            still.stdout.pipe(res);
 
         });
 
