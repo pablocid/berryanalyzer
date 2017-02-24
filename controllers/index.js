@@ -47,8 +47,8 @@ var fs =
         });
 
         router.get('/takepicture', function(req, res) {
-            execSync(`raspistill --timeout 1 -o - | convert - -resize 100 ${__dirname}/hola.jpg `);
-            res.sendFile('hola.jpg');
+            execSync(`raspistill --timeout 1 -o ${__dirname}/hola.jpg `);
+            res.sendFile(`${__dirname}/hola.jpg`);
             //res.status(200).json({ area: objeto.polygon.area(), p: objeto.polygon.aabb() });
 
         });
