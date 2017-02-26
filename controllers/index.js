@@ -17,6 +17,13 @@ module.exports = function(router) {
 
 
     });
+    router.get('/picture', function(req, res) {
+
+
+        res.render('picture');
+
+
+    });
     router.post('/upload-image', function(req, res) {
         var date = new Date();
         var analysis = new BA(date.getTime(), req.files.picture.path, 'tmp', 1200);
@@ -52,7 +59,7 @@ module.exports = function(router) {
     });
 
     router.get('/tomafoto', function(req, res) {
-        res.writeHead(200, { 'Content-Type': 'image/jpg' });
+        res.writeHead(200, { 'Content-Type': 'image/jpeg' });
         var args = ["--nopreview", "--timeout", "1", "-o", "-"];
 
         var keys = Object.keys(req.query);
@@ -70,10 +77,7 @@ module.exports = function(router) {
         console.log(args);
 
         var still = spawn('raspistill', args);
-        //still.stdout.pipe(res);
 
-        //HOLA
-        //rrororooieuroaiwu ldkfjkalsjdflkasjdflkajsklfjlad 
         if (req.query.resize) {
             console.log('resizing ...');
             var convert = spawn('convert', ['-', '-resize', req.query.resize, '-']);
