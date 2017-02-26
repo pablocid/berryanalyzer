@@ -17,7 +17,13 @@ module.exports = function(router) {
 
 
     });
-    router.get('/picture', function(req, res) {
+
+    function cors(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    }
+    router.get('/picture', cors, function(req, res) {
 
 
         res.render('picture');
@@ -58,7 +64,7 @@ module.exports = function(router) {
         res.sendFile(`${__dirname}/hola.jpg`);
     });
 
-    router.get('/tomafoto', function(req, res) {
+    router.get('/tomafoto', cors, function(req, res) {
         res.writeHead(200, { 'Content-Type': 'image/jpeg' });
         var args = ["--nopreview", "--timeout", "1", "-o", "-"];
 

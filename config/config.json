@@ -41,54 +41,42 @@
 
     "middleware": {
 
-        "appsec": {
-            "priority": 110,
+        "multipart": {
+            "enabled": true,
+            "priority": 80,
             "module": {
-                "name": "lusca",
+                "name": "kraken-js/middleware/multipart",
                 "arguments": [{
-                    "csrf": false,
-                    "xframe": false,
-                    "p3p": false,
-                    "csp": false
+                    "keepExtensions": true,
+                    "uploadDir": "/tmp"
                 }]
-            },
-
-            "multipart": {
-                "enabled": true,
-                "priority": 80,
-                "module": {
-                    "name": "kraken-js/middleware/multipart",
-                    "arguments": [{
-                        "keepExtensions": true,
-                        "uploadDir": "/tmp"
-                    }]
-                }
-            },
-
-            "makara": {
-                "priority": 100,
-                "enabled": true,
-                "module": {
-                    "name": "makara",
-                    "arguments": [{
-                        "i18n": "config:i18n",
-                        "specialization": "config:specialization"
-                    }]
-                }
-            },
-
-
-            "static": {
-                "module": {
-                    "arguments": ["path:./.build"]
-                }
-            },
-
-            "router": {
-                "module": {
-                    "arguments": [{ "directory": "path:./controllers" }]
-                }
             }
+        },
 
+        "makara": {
+            "priority": 100,
+            "enabled": true,
+            "module": {
+                "name": "makara",
+                "arguments": [{
+                    "i18n": "config:i18n",
+                    "specialization": "config:specialization"
+                }]
+            }
+        },
+
+
+        "static": {
+            "module": {
+                "arguments": ["path:./.build"]
+            }
+        },
+
+        "router": {
+            "module": {
+                "arguments": [{ "directory": "path:./controllers" }]
+            }
         }
+
     }
+}
