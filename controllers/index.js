@@ -52,6 +52,7 @@ module.exports = function(router) {
     });
 
     router.get('/tomafoto', function(req, res) {
+        res.writeHead(200, { 'Content-Type': 'image/jpg' });
         var args = ["--nopreview", "--timeout", "1", "-o", "-"];
 
         var keys = Object.keys(req.query);
