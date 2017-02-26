@@ -1,14 +1,14 @@
 {
 
-    
+
     "express": {
         "view cache": false,
         "view engine": "js",
         "views": "path:./.build/templates"
     },
-    
 
-    
+
+
     "view engines": {
         "js": {
             "module": "makara",
@@ -23,63 +23,72 @@
 
     "dust": {
         "helpers": [
-    
+
             "dust-makara-helpers"
-    
+
         ]
     },
-    
 
-    
+
+
     "i18n": {
         "contentPath": "path:./locales",
         "fallback": "en-US"
     },
-    
 
-    "specialization": {
-    },
+
+    "specialization": {},
 
     "middleware": {
 
-        "multipart": {
-          "enabled": true,
-          "priority": 80,
-          "module": {
-            "name": "kraken-js/middleware/multipart",
-            "arguments": [{
-              "keepExtensions": true,
-              "uploadDir":"/tmp"
-            }]
-          }
-        },
-        
-        "makara": {
-            "priority": 100,
-            "enabled": true,
+        "appsec": {
+            "priority": 110,
             "module": {
-                "name": "makara",
-                "arguments": [
-                    {
+                "name": "lusca",
+                "arguments": [{
+                    "csrf": false,
+                    "xframe": false,
+                    "p3p": false,
+                    "csp": false
+                }]
+            },
+
+            "multipart": {
+                "enabled": true,
+                "priority": 80,
+                "module": {
+                    "name": "kraken-js/middleware/multipart",
+                    "arguments": [{
+                        "keepExtensions": true,
+                        "uploadDir": "/tmp"
+                    }]
+                }
+            },
+
+            "makara": {
+                "priority": 100,
+                "enabled": true,
+                "module": {
+                    "name": "makara",
+                    "arguments": [{
                         "i18n": "config:i18n",
                         "specialization": "config:specialization"
-                    }
-                ]
-            }
-        },
-        
+                    }]
+                }
+            },
 
-        "static": {
-            "module": {
-                "arguments": [ "path:./.build" ]
-            }
-        },
 
-        "router": {
-            "module": {
-                "arguments": [{ "directory": "path:./controllers" }]
+            "static": {
+                "module": {
+                    "arguments": ["path:./.build"]
+                }
+            },
+
+            "router": {
+                "module": {
+                    "arguments": [{ "directory": "path:./controllers" }]
+                }
             }
+
         }
-
     }
-}
