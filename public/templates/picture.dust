@@ -10,9 +10,16 @@
     <h1>Cámara </h1>
     <div>
     <label for="name"> Identificador de la planta</label>
-     <input id="name" type="text" name="name" id="pictureName" placeholder=" ej: E5H12P44">
+     <input id="name" type="text" style="font-size:22px;" name="name" id="pictureName" placeholder=" ej: E5H12P44">
+     <select id="tipo" name="tipo" style="font-size:22px;">
+        <option value=""></option>
+        <option value="raquis">raquis</option>
+        <option value="raquis.principal">raquis.principal</option>
+        <option value="raquis.partes">raquis.partes</option>
+        <option value="bayas">bayas</option>
+     </select>
      </div>
-     <button id="previewBtn" style="font-size:25px; border-radius:2px; margin: 20px; ">vista previa ...</button>
+     <button id="previewBtn" style="font-size:22px; border-radius:2px; margin: 20px; ">vista previa ...</button>
      <div id="preview">
         <p>_________ Carga una imagen _________ </p>
      </div>
@@ -25,16 +32,21 @@
                 $('#preview').append('<p id="previewMsg">loading preview ...</p>');
                 var d = new Date().getTime();
                 var img = $('<img id="previewImg" style ="width:400px" alt="">')
-                img.attr("src", "/tomafoto?encoding=jpg&quality=3&annotate="+d);
+                img.attr("src", "http://192.168.0.104:8000/tomafoto?encoding=jpg&quality=3&annotate="+d);
                 $('#preview').append(img);
 
                 img.on('load', function(){
                     $('#previewMsg').remove();
-                    var btn = $('<button style="font-size:25px; border-radius:2px; display:block; margin: 20px; " id="picture" >Tomar foto y guardar</button>');
+                    var btn = $('<button style="font-size:22px; border-radius:2px; display:block; margin: 20px; " id="picture" >Tomar foto y guardar</button>');
                     btn.on('click', function(){
                         if(!$('#name').val()){ alert('Falta el identificador de la planta '); return; }
-                        var name = $('#name').val();
-                        saveImg("/tomafoto?encoding=jpg",name+'.jpg');
+                        if(!$('#tipo').val()){ alert('selecciona una opción'); return; }
+                        var id = $('#name').val();
+                        var tipo = $('#tipo').val();
+                        var name = id+'.'+tipo+'.jpg';
+                        console.log(name)
+                        saveImg("http://192.168.0.104:8000/tomafoto?encoding=jpg",name);
+                        $('#preview').empty().append('<p>_________ Carga una imagen _________ </p>');
                     });
                     $('#preview').append(btn);
                 });
