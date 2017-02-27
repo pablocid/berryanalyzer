@@ -76,7 +76,9 @@ module.exports = function(router) {
                 var el = keys[i];
                 if (el === 'resize') { continue; }
                 args.push('--' + el);
-                args.push(req.query[el]);
+                if (req.query[el] !== undefined) {
+                    args.push(req.query[el]);
+                }
             }
         }
 
