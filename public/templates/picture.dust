@@ -8,14 +8,18 @@
 
 
     <h1>Tomar la foto</h1>
-     <input type="text" name="name" id="pictureName">
+    <label for="name"> Identificador de la planta</label>
+     <input id="name" type="text" name="name" id="pictureName">
 
      <p>loading preview ...</p>
-      <img id="preview" src="/tomafoto?encoding=jpg&quality=3" style ="width:400px" alt="">
-     <a href="/tomafoto?encoding=jpg" download="image.jpg">download eeeee</a>
-     <button id="picture" >Download</button> 
-     <script>
+    <img id="preview" src="/tomafoto?encoding=jpg&quality=3" style ="width:400px" alt="">
 
+     <button id="picture" >Tomar foto y guardar</button> 
+     <script>
+        $('#picture').('click', function(){
+            var name = $('name').val() || 'image';
+            saveImg("/tomafoto?encoding=jpg",name+'.jpg');
+        })
         var saveImg = function (src, fileName) {
             var a = document.createElement('a');
             a.setAttribute('href', src);
@@ -24,7 +28,7 @@
             a.click();
         }
 
-        saveImg("/tomafoto?encoding=jpg",'oijadf.jpg')
+        
 
 /*
      //href="http://192.168.1.228:8000/tomafoto?encoding=jpg"
