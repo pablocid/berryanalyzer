@@ -17,7 +17,8 @@
      <button id="picture" >Tomar foto y guardar</button> 
      <script>
         $('#picture').on('click', function(){
-            var name = $('name').val() || 'image';
+            var name = $('#name').val() || 'image';
+            console.log(name);
             saveImg("/tomafoto?encoding=jpg",name+'.jpg');
         })
         var saveImg = function (src, fileName) {
