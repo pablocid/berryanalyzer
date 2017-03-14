@@ -1,6 +1,6 @@
 FROM node:boron
 
-RUN apt-get -y update
+RUN apt-get update
 RUN apt-get install  -y bc git
 
 RUN mkdir /usr/src/apps
