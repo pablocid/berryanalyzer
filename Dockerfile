@@ -1,15 +1,16 @@
 FROM node:boron
 
+RUN apt-get -y update
+RUN apt-get install  -y bc git
+
 RUN mkdir /usr/src/apps
 # Create app directory
-#RUN mkdir -p /usr/src/app
-#WORKDIR /usr/src/app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+# Install app 
+RUN git clone https://github.com/pablocid/berryanalyzer.git
+WORKDIR /usr/src/app/berryanalyzer
 
-# Install app dependencies
-#COPY package.json /usr/src/app/
-#RUN npm install
+RUN npm install
 
-# Bundle app source
-#COPY . /usr/src/app
-
-#CMD [ "npm", "start" ]
+CMD [ "npm", "start" ]
