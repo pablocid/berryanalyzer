@@ -201,8 +201,8 @@
                 $('#preview').append('<p id="previewMsg">loading preview ...</p>');
                 var d = new Date().getTime();
                 var img = $('<img id="previewImg" style ="width:400px" alt="">')
-                //img.attr("src", "/tomafoto?encoding=jpg&quality=3&annotate="+d);
-                img.attr("src", "https://www.google.cl/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+                img.attr("src", "/tomafoto?encoding=jpg&quality=3&annotate="+d);
+                //img.attr("src", "https://www.google.cl/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
                 $('#preview').append(img);
 
                 img.on('load', function(){
@@ -217,8 +217,8 @@
                         
                         var name = validator.name;
                         console.log(name)
-                        //saveImg("/tomafoto?encoding=jpg",name);
-                        saveImg("https://www.google.cl/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",name);
+                        saveImg("/tomafoto?encoding=jpg",name);
+                        //saveImg("https://www.google.cl/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",name);
                         $('#preview').empty().append('<p>_________ Carga una imagen _________ </p>');
                     });
                     $('#preview').append(btn);
