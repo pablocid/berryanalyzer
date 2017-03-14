@@ -11,11 +11,7 @@ module.exports = function(router) {
     var model = new IndexModel();
 
     router.get('/', function(req, res) {
-
-
         res.render('index', model);
-
-
     });
 
     function cors(req, res, next) {
@@ -32,7 +28,7 @@ module.exports = function(router) {
     });
     router.post('/upload-image', function(req, res) {
         var date = new Date();
-        var analysis = new BA(date.getTime(), req.files.picture.path, 'tmp', 1200);
+        var analysis = new BA(date.getTime(), req.files.picture.path, 'tmp', 300);
 
         analysis.getResult().then(uu => {
             res.status(200).json({

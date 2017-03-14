@@ -1,0 +1,10 @@
+sudo docker exec -it 27922237f5b0 /bin/bash
+
+# crea imagen 
+docker build -t <username>/ubuntu-base .
+
+# remover todas las imagenes sin containers asociados
+docker image prune -a
+
+# crear container
+sudo docker run -v /home/blopa/Documents/Apps/:/usr/src/apps -p 8000:8000 -it node/boron

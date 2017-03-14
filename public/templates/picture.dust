@@ -1,57 +1,276 @@
 {>"layouts/master" /}
 
 {<body}
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
+<div class="row">
+<div class="col-md-12">
+    <div class="jumbotron">
+        <h1>Cámara </h1>
+    </div>
+</div>
+<div class="col-md-8" style="">
 
-
-    <h1>Cámara </h1>
+    <style>
+        .fontInput{
+            font-size:18px;
+        }
+    </style>
     <div>
-    <label for="name"> Identificador de la planta</label>
-     <input id="name" type="text" style="font-size:22px;" name="name" id="pictureName" placeholder=" ej: E5H12P44">
-     <select id="tipo" name="tipo" style="font-size:22px;">
-        <option value=""></option>
-        <option value="raquis">raquis</option>
-        <option value="raquis.principal">raquis.principal</option>
-        <option value="raquis.partes">raquis.partes</option>
-        <option value="bayas">bayas</option>
-     </select>
-     </div>
-     <button id="previewBtn" style="font-size:22px; border-radius:2px; margin: 20px; ">vista previa ...</button>
+        
+        <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation"><a id="aVariedad" href="#variedad" data-toggle="tab">variedad</a></li>
+            <li role="presentation"><a id="aSegregante" href="#segregante" data-toggle="tab">segregante</a></li>
+            <li role="presentation"><a id="aOtro" href="#otro" data-toggle="tab">Otro</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="variedad">
+                <h2>Variedad</h2>
+                <div class="form row">
+                    <div class="form-group col-md-2">
+                        <label for="">Nombre de variedad</label>
+                        <select class="form-control fontInput" id="nameVar" >
+                            <option value=""></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="">Repetición</label>
+                        <select class="form-control fontInput" id="repeatVar" >
+                            <option value=""></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="">Estructura</label>
+                        <select class="form-control fontInput" id="estrucVar" >
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="segregante">
+                <h2>Segregante</h2>
+                <div class="form row">
+                    <div class="form-group col-md-2">
+                        <label for="">Espaldera</label>
+                        <select class="form-control fontInput" id="espaldera" >
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Hilera</label>
+                        <select class="form-control fontInput" id="hilera" >
+                            <option value=""></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="">Posición</label>
+                        <select class="form-control fontInput" id="posicion" >
+                            <option value=""></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="">Repetición</label>
+                        <select class="form-control fontInput" id="repeatSeg" >
+                            <option value=""></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="">Estructura</label>
+                        <select class="form-control fontInput" id="estrucSeg" >
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="otro">
+                <h2>Otro</h2>
+                <input id="name" type="text" style="font-size:22px;" name="name" id="pictureName" placeholder=" ej: E5H12P44">
+                <select id="tipo" name="tipo" style="font-size:22px;">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        </div>
+        
+    </div>
+     
+</div>
+<div class="col-md-4">
+    <button id="previewBtn" style="font-size:22px; border-radius:2px; margin: 20px; ">vista previa ...</button>
      <div id="preview">
         <p>_________ Carga una imagen _________ </p>
      </div>
+</div>
 
+
+</div>
     <!--<img id="previewImg" src="/tomafoto?encoding=jpg&quality=3" style ="width:400px" alt="">-->
  
      <script>
-        $('#previewBtn').on('click',function(){
+        for(var i=1; i <= 14; i++){
+            $('#espaldera').append($('<option>', { 
+                value: 'E'+i,
+                text : 'E'+i 
+            }));
+        }
+        for(var i=1; i <= 50; i++){
+            $('#hilera').append($('<option>', { 
+                value: 'H'+i,
+                text : 'H'+i 
+            }));
+        }
+        for(var i=1; i <= 250; i++){
+            $('#posicion').append($('<option>', { 
+                value: 'P'+i,
+                text : 'P'+i 
+            }));
+        }
+        for(var i=1; i <= 4 ; i++){
+            $('#repeatVar').append($('<option>', { 
+                value: 'r'+i,
+                text : 'r'+i 
+            }));
+            $('#repeatSeg').append($('<option>', { 
+                value: 'r'+i,
+                text : 'r'+i 
+            }));
+
+        }
+
+        var variedadesOptions = ['bigred', 'cardinal', 'centseedless', 'flame', 'illusion','julymuscat','mdeoeiras','monococco','monukka','olivettenoir','perlette','pervenetz'];
+
+        for(var i=0; i < variedadesOptions.length; i++){
+            $('#nameVar').append($('<option>', { 
+                value: variedadesOptions[i],
+                text : variedadesOptions[i] 
+            }));
+        }
+
+        var estructurasOptions = ['raquis', 'raquis.principal', 'bayas'];
+
+        for(var i=0; i < estructurasOptions.length; i++){
+            $('#estrucVar').append($('<option>', { 
+                value: estructurasOptions[i],
+                text : estructurasOptions[i] 
+            }));
+            $('#estrucSeg').append($('<option>', { 
+                value: estructurasOptions[i],
+                text : estructurasOptions[i] 
+            }));
+            $('#tipo').append($('<option>', { 
+                value: estructurasOptions[i],
+                text : estructurasOptions[i] 
+            }));
+        }
+
+        var aVariedad = $('#aVariedad');
+        var aSegregante =  $('#aSegregante');
+        var aOtro = $('#aOtro');
+
+        var current;
+
+        aVariedad.on('click', function(){
+            current = "aVariedad";
+            console.log('on click aVariedad');
+        });
+
+         aVariedad.trigger('click');
+
+         aSegregante.on('click', function(){
+             current = "aSegregante";
+            console.log('on click aSegregante');
+        });
+
+
+         aOtro.on('click', function(){
+            current = "aOtro";
+            console.log('on click aOtro');
+        });
+
+
+        $('#previewBtn').on('click',()=>{
                 $('#preview').empty();
                 $('#preview').append('<p id="previewMsg">loading preview ...</p>');
                 var d = new Date().getTime();
                 var img = $('<img id="previewImg" style ="width:400px" alt="">')
-                img.attr("src", "/tomafoto?encoding=jpg&quality=3&annotate="+d);
+                //img.attr("src", "/tomafoto?encoding=jpg&quality=3&annotate="+d);
+                img.attr("src", "https://www.google.cl/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
                 $('#preview').append(img);
 
                 img.on('load', function(){
                     $('#previewMsg').remove();
                     var btn = $('<button style="font-size:22px; border-radius:2px; display:block; margin: 20px; " id="picture" >Tomar foto y guardar</button>');
                     btn.on('click', function(){
-                        if(!$('#name').val()){ alert('Falta el identificador de la planta '); return; }
-                        if(!$('#tipo').val()){ alert('selecciona una opción'); return; }
-                        var id = $('#name').val();
-                        var tipo = $('#tipo').val();
-                        var name = id+'.'+tipo+'.jpg';
+                        var validator  = ValidateInputs(current);
+                        if(!validator.valid){
+                            alert(validator.msg);
+                            return ;
+                        }
+                        
+                        var name = validator.name;
                         console.log(name)
-                        saveImg("/tomafoto?encoding=jpg",name);
+                        //saveImg("/tomafoto?encoding=jpg",name);
+                        saveImg("https://www.google.cl/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",name);
                         $('#preview').empty().append('<p>_________ Carga una imagen _________ </p>');
                     });
                     $('#preview').append(btn);
                 });
 
         });
+
+        function ValidateInputs(curr){
+            
+            if(!curr){return {valid:false, msg:'No se ha seleccionado un Tab'};}
+
+            switch(curr){
+                case 'aVariedad':
+                    var msg;
+                    var name;
+
+                    if(!$('#nameVar').val()){ msg = 'Falta el identificador de la planta '; }
+                    if(!$('#repeatVar').val()){msg ='selecciona una repetición'; }
+                    if(!$('#estrucVar').val()){msg ='selecciona una estructura'; }
+
+                    if(msg){ return {valid:false, msg:msg}}
+                    name = $('#nameVar').val()+'.'+$('#repeatVar').val()+'.'+$('#estrucVar').val()+'.jpg';
+                    return {valid:true, name:name};
+                    break;
+                case 'aSegregante':
+                    var msg;
+                    var name;
+
+                    if(!$('#espaldera').val()){ msg = 'Falta el identificador de espaldera '; }
+                    if(!$('#hilera').val()){ msg = 'Falta el identificador de hilera '; }
+                    if(!$('#posicion').val()){ msg = 'Falta el identificador de posicion '; }
+                    if(!$('#repeatSeg').val()){msg ='selecciona una repetición'; }
+                    if(!$('#estrucSeg').val()){msg ='selecciona una estructura'; }
+
+                    if(msg){ return {valid:false, msg:msg}}
+                    name = $('#espaldera').val()+$('#hilera').val()+$('#posicion').val()+'.'+$('#repeatSeg').val()+'.'+$('#estrucSeg').val()+'.jpg';
+                    return {valid:true, name:name};
+                    break;
+                case 'aOtro':
+                    var msg;
+                    var name;
+
+                    if(!$('#name').val()){ msg = 'Falta el identificador de la planta '; }
+                    if(!$('#tipo').val()){msg ='selecciona una estructura'; }
+
+                    if(msg){ return {valid:false, msg:msg}}
+                    name = $('#name').val()+'.'+$('#tipo').val()+'.jpg';
+                    return {valid:true, name:name};
+
+                    break;
+            }
+        }
 
 
         var saveImg = function (src, fileName) {

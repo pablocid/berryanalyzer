@@ -9,7 +9,7 @@ var centroid = require('polygon-centroid');
 class BerryAnalyzer {
 
     constructor(id, path, folderPath, resolution) {
-        this.resolution = resolution || 1200;
+        this.resolution = resolution || 1500;
         this.id = id;
         this.path = path;
         this.folder = folderPath;
@@ -36,8 +36,9 @@ class BerryAnalyzer {
         return q.all(qarray).then(x => {
             this.colors = this.getColors();
             this.eraseTmpFiles();
-            let ref = this.objects.filter(x => x.isReference)[0]
-            if (!ref) { return r }
+            let ref = this.objects.filter(x => x.isReference)[0];
+            console.log('ref.area: ' + ref.area, '| ref.pixArea: ' + ref.pixArea);
+            if (!ref) { return r; }
             this.objects.map(r => {
                 r.reference = ref.area;
                 return r;
@@ -105,7 +106,6 @@ class Berry {
     constructor(position, id, area) {
         this.position = position;
         this.id = id;
-        this._angle;
         this.pixArea = area;
     }
 
@@ -118,16 +118,16 @@ class Berry {
     }
 
     get angle() { return this._angle; }
-    set angle(value) { this._angle = value }
+    set angle(value) { this._angle = value; }
     get rad() { return this._angle * (Math.PI / 180); }
 
     get polygon() { return this._polygon; }
-    set polygon(value) { this._polygon = value }
+    set polygon(value) { this._polygon = value; }
 
     get area() {
         if (!this._polygon) { return; }
-        let a = this._polygon.area();
-        if (a < 0) { a *= -1 }
+        var a = this._polygon.area();
+        if (a < 0) { a *= -1; }
         return a;
     }
     get width() {
@@ -144,7 +144,7 @@ class Berry {
             return {
                 x: p[0],
                 y: p[1]
-            }
+            };
         }));
         //return this._polygon.center();
     }
@@ -164,17 +164,17 @@ class Berry {
     }
     get propSqArea() {
         if (!this._polygon) { return; }
-        return this.area / (this.width * this.height)
+        return this.area / this.sqArea;
     }
     get propEllipseArea() {
-        return this.area / (Math.PI * this.width * this.height / 4)
+        return this.area / (Math.PI * this.width * this.height / 4);
     }
     get propCircleArea() {
         return this.area / (Math.PI * this.width * this.width / 4);
     }
 
     get isReference() {
-        if (this.propWH <= 1 && this.propWH > 0.999) {
+        if (this.propWH <= 1 && this.propWH > 0.999 && this.propSqArea > 0.95) {
             return true;
         }
         return false;
@@ -192,16 +192,16 @@ class Berry {
         var minArea;
         var mv = 0;
         var degree = 0;
+        var rad = (Math.PI / 180);
 
         var clone = this.polygon.clone();
-        for (var e = 0; e < 360; e++) {
-            var rad = (Math.PI / 180);
+        for (var e = 0; e < 360; e = e + 1) {
 
-            if (e === 0) { rad = 0 }
+            if (e === 0) { rad = 0; }
             mv += rad;
 
             clone.rotate(rad, this.polygon.center());
-            let area = this.sqAreaClone(clone);
+            var area = this.sqAreaClone(clone);
             if (!minArea) {
                 minArea = area;
                 degree = mv;
@@ -224,8 +224,10 @@ class Berry {
     }
 
     get realArea() {
-        return this.area / Math.pow(this.reference, 2)
+        return this.area / Math.pow(this.reference, 2);
     }
 
 
 }
+
+//convert h3.m.jpg -morphology Close Diamond -morphology Erode Square  -morphology Close Diamond h3.solid.jpg
