@@ -30,10 +30,10 @@ module.exports = function(router) {
         var date = new Date();
         var analysis = new BA(date.getTime(), req.files.picture.path, 'tmp', 300);
 
-        analysis.getResult().then(uu => {
+        analysis.getResult().then(function(uu) {
             res.status(200).json({
                 colors: analysis.colors,
-                objects: analysis.objects.map(x => {
+                objects: analysis.objects.map(function(x) {
                     return {
                         pos: x.position,
                         identifier: x.id,
