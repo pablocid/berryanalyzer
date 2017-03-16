@@ -145,7 +145,12 @@
 
         }
 
-        var variedadesOptions = ['bigred', 'cardinal', 'centseedless', 'flame', 'illusion','julymuscat','mdeoeiras','monococco','monukka','olivettenoir','perlette','pervenetz'];
+        var variedadesOptions = [
+            'bigred', 'cardinal', 'centseedless', 'flame', 'illusion','julymuscat','mdeoeiras','monococco','monukka','olivettenoir','perlette','pervenetz',
+            'perlon', 'dawns', 'korithiaspro', 'autumroyal', 'redglobe', 'emperor', 'moscatelalbarosa', 'ribier', 'voskeat','plantdumaroc', 'italiapirovano',
+            'agourane', 'cannerseedless', 'uvadelrey', 'orlovinokti', 'bogazkere', 'arnaguirna', 'retagliadobianco', 'kyoho', 'exotic', 'iniagrapeone',
+            'blushseedless', 'sanfrancisco','rubyseedless', 'alburna', 'patagonia', 'varietedoasis', 'calmeria', 'mdemalaga', 'yapincak'
+        ];
 
         for(var i=0; i < variedadesOptions.length; i++){
             $('#nameVar').append($('<option>', { 
